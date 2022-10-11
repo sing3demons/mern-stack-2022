@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react'
+import Button from '@mui/material/Button'
+import ButtonAppBar from './components/AppBar.jsx'
+import TransactionForm from './components/TransactionForm.jsx'
 
 function App() {
   const [form, setForm] = useState({
@@ -39,13 +42,14 @@ function App() {
   }
 
   useEffect(() => {
-    console.log('1')
-
     fetchTransaction()
   }, [])
 
   return (
     <div>
+      <ButtonAppBar />
+
+      <TransactionForm />
       <form onSubmit={handleSubmit}>
         <input
           type="number"
@@ -68,10 +72,9 @@ function App() {
           onChange={handleInput}
         />
         <button type="submit">Submit</button>
+        <Button variant="contained">Contained</Button>
       </form>
-
       <br />
-
       <section>
         <table>
           <thead>
