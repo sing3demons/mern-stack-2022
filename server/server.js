@@ -1,26 +1,12 @@
 import express from 'express'
-import mongoose from 'mongoose'
 import cors from 'cors'
+import ConnectDB from './db.js'
+import Transaction from './models/transaction.js'
 
 const PORT = 4000
 const app = express()
 
-const mongoConn = {
-  uri: process.env.MONGO_URI || 'mongodb://localhost:27017/',
-  user: process.env.MONGO_USER || 'root',
-  pass: process.env.MONGO_PASS || 'passw0rd',
-  dbName: process.env.MONGO_DB_NAME || 'mernfullstack',
-}
-
-mongoose
-  .connect(mongoConn.uri, {
-    useNewUrlParser: true,
-    user: mongoConn.user,
-    pass: mongoConn.pass,
-    dbName: mongoConn.dbName,
-  })
-  .then(() => console.log('MongoDB connection is successful'))
-  .catch((err) => console.log(`error connecting to the database: ${err}`))
+ConnectDB()
 
 app.use(express.json({}))
 app.use(express.urlencoded())
@@ -30,9 +16,17 @@ app.get('/', (req, res) => {
   res.send('Hello World')
 })
 
-app.post('/transaction', (req, res) => {
-  console.log(req.body)
-  res.json('Hello World')
+app.post('/transaction', async (req, res) => {
+  const { amount, description, date } = req.body
+  const transaction = new Transaction({
+    amount,
+    description,
+    date,
+  })
+
+  await transaction.save()
+  // console.log(req.body)
+  res.status(201).json({ message: 'Success' })
 })
 
 app.listen(PORT, () =>
