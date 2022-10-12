@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import Button from '@mui/material/Button'
 import ButtonAppBar from './components/AppBar.jsx'
 import TransactionForm from './components/TransactionForm.jsx'
 
@@ -19,8 +18,9 @@ function App() {
       headers: { 'Content-Type': 'application/json' },
     })
 
-    await res.json()
-    fetchTransaction()
+    if (res.ok) {
+      fetchTransaction()
+    }
   }
 
   const handleInput = (e) => {
@@ -49,7 +49,7 @@ function App() {
     <div>
       <ButtonAppBar />
 
-      <TransactionForm />
+      <TransactionForm fetchTransaction={fetchTransaction} />
       <form onSubmit={handleSubmit}>
         <input
           type="number"
@@ -72,7 +72,6 @@ function App() {
           onChange={handleInput}
         />
         <button type="submit">Submit</button>
-        <Button variant="contained">Contained</Button>
       </form>
       <br />
       <section>
