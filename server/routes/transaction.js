@@ -26,4 +26,16 @@ router.post('/', async (req, res) => {
   res.status(201).json({ message: 'Success' })
 })
 
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    console.log(id)
+    await Transaction.findByIdAndRemove(id)
+
+    res.status(200).json({ message: 'success' })
+  } catch (error) {
+    res.status(500).json({ error: error })
+  }
+})
+
 export default router

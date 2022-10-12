@@ -52,7 +52,10 @@ function App() {
       <ButtonAppBar />
       <Container>
         <TransactionForm fetchTransaction={fetchTransaction} />
-        <TransactionList transaction={transaction} />
+        <TransactionList
+          transaction={transaction}
+          fetchTransaction={fetchTransaction}
+        />
       </Container>
     </>
   )
